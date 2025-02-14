@@ -1,33 +1,32 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-
-
 const CaptainSignup = () => {
-
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [userData, setUserData] = useState({});
-  
-    const submitHandler = (e) => {
-      e.preventDefault();
-      setUserData({
-        email: email,
-        password: password,
-        firstName:firstName,
-        lastName:lastName
-      });
-      console.log(userData);
-      setEmail("");
-      setPassword("");
-      setLastName("");
-      setFirstName("");
-    };
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userData, setUserData] = useState({});
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setUserData({
+      email: email,
+      password: password,
+      fullName: {
+        firstName: firstName,
+        lastName: lastName,
+      },
+    });
+    console.log(userData);
+    setEmail("");
+    setPassword("");
+    setLastName("");
+    setFirstName("");
+  };
 
   return (
-     <div className="p-7 h-screen flex flex-col justify-between">
+    <div className="p-7 h-screen flex flex-col justify-between">
       <div>
         <img
           className="w-20"
@@ -98,7 +97,7 @@ const CaptainSignup = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CaptainSignup
+export default CaptainSignup;

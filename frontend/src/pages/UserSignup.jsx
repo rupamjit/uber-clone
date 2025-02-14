@@ -13,8 +13,10 @@ const UserSignup = () => {
     setUserData({
       email: email,
       password: password,
-      firstName:firstName,
-      lastName:lastName
+      fullName: {
+        firstName: firstName,
+        lastName: lastName,
+      },
     });
     console.log(userData);
     setEmail("");
@@ -22,7 +24,6 @@ const UserSignup = () => {
     setLastName("");
     setFirstName("");
   };
-
 
   return (
     <div className="p-7 h-screen flex flex-col justify-between">
