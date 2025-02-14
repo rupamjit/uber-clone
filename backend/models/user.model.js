@@ -1,6 +1,7 @@
 import { jwt } from "jsonwebtoken";
 import mongoose from "mongoose";
-impirt;
+import bcrypt from "bcrypt";
+
 const userSchema = new mongoose.Schema({
   fullName: {
     firstName: {
@@ -40,7 +41,7 @@ userSchema.methods.comparePassword = async (password) => {
 };
 
 userSchema.statics.hashPassword = async (password) => {
-  return await bcrypt.hash(password, 1);
+  return await bcrypt.hash(password, 10);
 };
 
 const User = mongoose.model("User", userSchema);
