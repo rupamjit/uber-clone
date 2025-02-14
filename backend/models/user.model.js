@@ -1,6 +1,5 @@
-import { jwt } from "jsonwebtoken";
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -11,38 +10,27 @@ const userSchema = new mongoose.Schema({
     },
     lastName: {
       type: String,
-      inlength: [3, "Last name must be at least 3 characters long"],
+      minlength: [3, "Last name must be at least 3 characters long"],
     },
   },
   email: {
     type: String,
     required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
     select: false,
-    minlength: [5, "Email must be at least 5 characters long"],
+    minlength: [6, "Password must be at least 6 characters long"],
   },
   socketId: {
     type: String,
   },
 });
-
-userSchema.methods.getAuthToken = () => {
-  const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "24h",
-  });
-  return token;
-};
-
-userSchema.methods.comparePassword = async (password) => {
-  return await bcrypt.compare(password, this.password);
-};
-
-userSchema.statics.hashPassword = async (password) => {
-  return await bcrypt.hash(password, 10);
-};
+;
 
 const User = mongoose.model("User", userSchema);
 export default User;
