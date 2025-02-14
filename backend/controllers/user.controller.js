@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import BlackListToken from "../models/blackListToken.model.js";
 
 const registerUser = async (req, res) => {
   const errors = validationResult(req);
@@ -51,7 +52,7 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "User Not Found" });
     }
 
-    const isPasswordMatch = await  bcrypt.compare(password,user.password);
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "Password doenot match" });
@@ -60,6 +61,7 @@ const loginUser = async (req, res) => {
       expiresIn: "24h",
     });
 
+    res.cookie("token", token);
     res.status(200).json({ token, user });
   } catch (error) {
     console.log(`Error in login user${error}`);
@@ -67,4 +69,23 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser };
+const getProfile = (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+const logOutUser = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+    await BlackListToken.create({ token });
+    res.status(200).json({ message: "Logged out" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+export { registerUser, loginUser, getProfile, logOutUser };
