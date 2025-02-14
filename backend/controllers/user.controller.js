@@ -88,4 +88,6 @@ const logOutUser = async (req, res) => {
   }
 };
 
+
+
 export { registerUser, loginUser, getProfile, logOutUser };

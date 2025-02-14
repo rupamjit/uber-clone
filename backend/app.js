@@ -5,6 +5,7 @@ import cors from "cors"
 import connectDB from "./db/db.js"
 import userRouter from "./routes/user.routes.js"
 import cookieParser from "cookie-parser"
+import captainRouter from "./routes/captain.routes.js"
 const app = express()
 
 connectDB()
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use("/api/v1/users",userRouter)
+app.use("/api/v1/captains",captainRouter)
 
 
 
