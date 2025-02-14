@@ -41,4 +41,30 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { registerUser };
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).select("+password");
+
+    if (!user) {
+      return res.status(400).json({ message: "User Not Found" });
+    }
+
+    const isPasswordMatch = await  bcrypt.compare(password,user.password);
+
+    if (!isPasswordMatch) {
+      return res.status(400).json({ message: "Password doenot match" });
+    }
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+
+    res.status(200).json({ token, user });
+  } catch (error) {
+    console.log(`Error in login user${error}`);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { registerUser, loginUser };
