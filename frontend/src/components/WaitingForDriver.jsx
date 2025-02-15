@@ -22,9 +22,6 @@ const WaitingForDriver = ({setWaitingForDriver}) => {
         </div>
       </div>
 
-      {/* <div className="flex gap-2 justify-between flex-col items-center">
-       
-      </div> */}
 
       <div className="w-full mt-5">
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">

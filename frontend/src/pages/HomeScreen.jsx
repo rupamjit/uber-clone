@@ -121,7 +121,11 @@ const HomeScreen = () => {
         src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
         alt=""
       />
-      <div className="h-screen w-screen">{/* LiveTracking  */}</div>
+      <div className="h-screen w-screen">
+        {/* LiveTracking  */}
+        <img className="h-full w-full object-fit" src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
+        
+        </div>
       <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
         <div className="h-[30%] p-6 bg-white relative">
           <h5
