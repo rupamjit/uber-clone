@@ -5,6 +5,7 @@ import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePannel from "../components/VehiclePannel";
 import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
 
 const HomeScreen = () => {
   const [pickup, setPickup] = useState("");
@@ -12,11 +13,14 @@ const HomeScreen = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehicalePannel, setVehiclePannel] = useState(false);
   const [confirmRidePannel, setConfirmRidePannel] = useState(false);
+  const [vehicleFound, setVehicleFound] = useState(false);
 
   const vehicalePannelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const confirmRidePannelRef = useRef(null);
   const panelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -76,6 +80,22 @@ const HomeScreen = () => {
     },
     [confirmRidePannel]
   );
+
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -142,10 +162,10 @@ const HomeScreen = () => {
         ref={confirmRidePannelRef}
         className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full"
       >
-        <ConfirmRide setConfirmRidePannel={setConfirmRidePannel} />
+        <ConfirmRide setConfirmRidePannel={setConfirmRidePannel} setVehicleFound={setVehicleFound}/>
       </div>
-      <div className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full">
-        
+      <div ref={vehicleFoundRef} className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full">
+        <LookingForDriver  setVehicleFound={setVehicleFound}/>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-const ConfirmRide = ({ setConfirmRidePannel,setVehicleFound }) => {
+const WaitingForDriver = () => {
   return (
     <div>
       <h5
@@ -8,7 +8,7 @@ const ConfirmRide = ({ setConfirmRidePannel,setVehicleFound }) => {
         {" "}
         <i className="ri-arrow-down-wide-line text-3xl text-gray-600"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">Confirm Your Ride</h3>
+      <h3 className="text-2xl font-semibold mb-5">Looking For a Driver</h3>
 
       <div className="flex gap-2 justify-between flex-col items-center">
         <img
@@ -38,23 +38,15 @@ const ConfirmRide = ({ setConfirmRidePannel,setVehicleFound }) => {
           </div>
         </div>
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
-           <i className="text-lg ri-currency-line"></i>
+          <i className="text-lg ri-currency-line"></i>
           <div>
             <h3 className="text-lg font-medium">$193.20</h3>
-            <p className="text-sm -mt-1 text-gray-600">
-             Cash Cash
-            </p>
+            <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
           </div>
         </div>
       </div>
-      <button onClick={()=>{
-        setVehicleFound(true)
-        setConfirmRidePannel(false)
-      }} className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
-        Confirm
-      </button>
     </div>
   );
 };
 
-export default ConfirmRide;
+export default WaitingForDriver;
