@@ -1,22 +1,30 @@
-const WaitingForDriver = () => {
+const WaitingForDriver = ({setWaitingForDriver}) => {
   return (
     <div>
       <h5
-        onClick={() => setConfirmRidePannel(false)}
+        onClick={() => setWaitingForDriver(false)}
         className="p-1 text-center absolute w-[93%] top-0 "
       >
         {" "}
         <i className="ri-arrow-down-wide-line text-3xl text-gray-600"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">Looking For a Driver</h3>
 
-      <div className="flex gap-2 justify-between flex-col items-center">
+      <div className="flex items-center justify-between">
         <img
-          className="h-20"
-          src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1568070387/assets/b5/0a5191-836e-42bf-ad5d-6cb3100ec425/original/UberX.png"
-          alt="uber_car"
+          className="h-12"
+          src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg"
+          alt=""
         />
+        <div className="text-right">
+          <h2 className="text-lg font-medium">Driver</h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 AB 124</h4>
+          <p className="text-sm text-gray-600">Lamborgini</p>
+        </div>
       </div>
+
+      {/* <div className="flex gap-2 justify-between flex-col items-center">
+       
+      </div> */}
 
       <div className="w-full mt-5">
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
