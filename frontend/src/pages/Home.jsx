@@ -11,7 +11,10 @@ const Home = () => {
 
       <div className="bg-white py-7 px-4 ">
         <h1 className="text-2xl font-bold">Getting Started With Uber</h1>
-        <Link to="/login" className="flex items-center justify-center mt-4 bg-black text-white rounded-lg p-4">
+        <Link
+          to="/login"
+          className="flex items-center justify-center mt-4 bg-black text-white rounded-lg p-4"
+        >
           Continue
         </Link>
       </div>
