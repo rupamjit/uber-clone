@@ -1,14 +1,15 @@
-const RidePopUp = ({ setRidePopUpPanel,setConfirmRidePopupPanel }) => {
+
+const ConfirmRidePopUp = ({setConfirmRidePopupPanel,setRidePopUpPanel}) => {
   return (
-    <div>
+       <div >
       <h5
-        onClick={() => setRidePopUpPanel(false)}
+        onClick={() => setConfirmRidePopupPanel(false)}
         className="p-1 text-center absolute w-[93%] top-0 "
       >
         {" "}
         <i className="ri-arrow-down-wide-line text-3xl text-gray-600"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">New Ride Available</h3>
+      <h3 className="text-2xl font-semibold mb-5">Confirm This Ride To Start</h3>
 
       <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4 ">
         <div className="flex items-center gap-3 ">
@@ -50,21 +51,22 @@ const RidePopUp = ({ setRidePopUpPanel,setConfirmRidePopupPanel }) => {
         </div>
       </div>
       <button
-        onClick={() => {
-            setConfirmRidePopupPanel(true)
-        }}
+        onClick={() => {}}
         className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
       >
-        Except
+        Confirm
       </button>
       <button
-        onClick={() => setRidePopUpPanel(false)}
-        className="w-full mt-2 bg-gray-400 text-white font-semibold p-2 rounded-lg"
+        onClick={() => {
+            setConfirmRidePopupPanel(false)
+            setRidePopUpPanel(false)
+        }}
+        className="w-full mt-2 bg-red-700 text-white font-semibold p-2 rounded-lg"
       >
-        Ignore
+        Cancel
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default RidePopUp;
+export default ConfirmRidePopUp
