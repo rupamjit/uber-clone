@@ -188,7 +188,7 @@ const HomeScreen = () => {
       <div ref={vehicleFoundRef} className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full">
         <LookingForDriver  setVehicleFound={setVehicleFound}/>
       </div>
-      <div ref={waitingForDriverRef}  className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12">
+      <div ref={waitingForDriverRef}  className="fixed w-full z-10 bg-whiten translate-y-full bottom-0 px-3 py-6 pt-12">
         <WaitingForDriver  setWaitingForDriver={setWaitingForDriver}/>
       </div>
     </div>
