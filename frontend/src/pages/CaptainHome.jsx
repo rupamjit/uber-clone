@@ -53,14 +53,14 @@ const CaptainHome = () => {
         />
 
         <Link
-          to="/home"
+          to="/captain-home"
           className="fixed  right-2  top-2 h-10 w-10  bg-white flex  items-center justify-center rounded-full"
         >
           <i className="text-lg font-medium ri-logout-box-r-line"></i>
         </Link>
       </div>
       <div className="h-3/5">
-        <img
+        <img  
           className="h-full w-full object-fit"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
           alt=""
