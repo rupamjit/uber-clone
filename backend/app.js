@@ -22,7 +22,4 @@ app.use("/api/v1/maps",mapRouter)
 
 
 
-
-
-
 export default app
