@@ -1,27 +1,16 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
-
-  const [otp,setOtp] = useState("")
-
-  const submitHandler = (e) =>{
-    e.preventDefault()
-    console.log("OTP:",otp)
-  }
-
+const FinishRide = ({ setFinishedRidePanel }) => {
   return (
     <div>
       <h5
-        onClick={() => setConfirmRidePopupPanel(false)}
+        onClick={() => setFinishedRidePanel(false)}
         className="p-1 text-center absolute w-[93%] top-0 "
       >
         {" "}
         <i className="ri-arrow-down-wide-line text-3xl text-gray-600"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">
-        Confirm This Ride To Start
-      </h3>
+      <h3 className="text-2xl font-semibold mb-5">Finish This Ride</h3>
 
       <div className="flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4 ">
         <div className="flex items-center gap-3 ">
@@ -64,30 +53,16 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
       </div>
 
       <div className="mt-6 w-full">
-        <form onSubmit={(e)=>{
-            submitHandler(e)
-        }}>
-          <input value={otp} onChange={(e)=>setOtp(e.target.value)} type="text" placeholder="Enter OTP" className="bg-[#eee] px-12 py-2 text-lg font-mono rounded-lg w-full"/>
-          <Link
-            to="/captain-riding"
-            onClick={() => {}}
-            className="w-full flex items-center justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
-          >
-            Confirm
-          </Link>
-          <button
-            onClick={() => {
-              setConfirmRidePopupPanel(false);
-              setRidePopUpPanel(false);
-            }}
-            className="w-full mt-2 bg-red-700 text-white font-semibold p-2 rounded-lg"
-          >
-            Cancel
-          </button>
-        </form>
+        <Link
+          to="/captain-home"
+          onClick={() => {}}
+          className="w-full flex items-center justify-center mt-10 bg-green-600 text-white font-semibold p-2 rounded-lg"
+        >
+          Finish Ride
+        </Link>
       </div>
     </div>
   );
 };
 
-export default ConfirmRidePopUp;
+export default FinishRide;
