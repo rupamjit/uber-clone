@@ -37,7 +37,7 @@ const getDistanceAndTime = async (req, res) => {
 
     res.status(200).json({ distanceAndTime });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ error: error.message, message: "Internal Server Error" });
   }
@@ -47,7 +47,7 @@ const getAutoCompleteSuggestions = async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.status(404).json({ errors: errors.array() });
+    return res.status(404).json({ errors: errors.array() });
   }
 
   try {
@@ -56,11 +56,11 @@ const getAutoCompleteSuggestions = async (req, res) => {
 
     const suggetions = await autoCompleteSuggestions(input)
 
-    res.status(200).json({suggetions})
+    return res.status(200).json({suggetions})
 
 
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({ error: error.message, message: "Internal Server Error" });
   }

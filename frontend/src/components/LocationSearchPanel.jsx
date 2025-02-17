@@ -1,20 +1,25 @@
-import PropTypes from "prop-types";
 
-const LocationSearchPanel = ({ setVehiclePannel, setPanelOpen }) => {
-  const locations = [
-    "24B,Near Kappors cafe , near Kappors building",
-    "24B,Near Singania cafe , near singahnia building",
-    "24B,Near Sharma cafe , near sharma buildng",
-    "24B,Near Malhotra cafe , near Malhotra building",
-  ];
-
+const LocationSearchPanel = ({
+  suggetions,
+  setDestination,
+  activeField,
+  setPickup,
+}) => {
+  const handleClick = (location) => {
+    if (activeField === "pickup") {
+      setPickup(location.description);
+    } else {
+      setDestination(location.description);
+    }
+  };
+  // console.log(suggetions);
+  
   return (
-    <div>
-      {locations.map((location, index) => (
+    <div className="mt-2">
+      {suggetions.map((location, index) => (
         <div
           onClick={() => {
-            setVehiclePannel(true);
-            setPanelOpen(false);
+            handleClick(location);
           }}
           key={index}
           className="flex border-2 border-gray-200 active:border-black p-3 rounded-xl  items-center my-2 justify-start gap-4"
@@ -22,16 +27,13 @@ const LocationSearchPanel = ({ setVehiclePannel, setPanelOpen }) => {
           <h2 className="bg-[#eee] rounded-full h-10 w-10 flex items-center justify-center">
             <i className="ri-map-pin-fill"></i>
           </h2>
-          <h4 className="font-medium">{location}</h4>
+          <h4 className="font-medium">{location.description}</h4>
         </div>
       ))}
     </div>
   );
 };
 
-LocationSearchPanel.propTypes = {
-  setVehiclePannel: PropTypes.func.isRequired,
-  setPanelOpen: PropTypes.func.isRequired,
-};
+
 
 export default LocationSearchPanel;
