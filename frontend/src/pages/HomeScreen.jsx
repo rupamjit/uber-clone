@@ -21,6 +21,7 @@ const HomeScreen = () => {
   const [destinationSuggetions, setDestinationSuggetions] = useState([]);
   const [pickUpSuggetions, setPickUpSuggetions] = useState([]);
   const [activeField, setActiveField] = useState(null);
+  const [fare,serFare] = useState({})
 
   const vehicalePannelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -156,10 +157,24 @@ const HomeScreen = () => {
     }
   };
 
-  const findTrip = () =>{
+  const findTrip = async () =>{
     setVehiclePannel(true)
     setPanelOpen(false)
+
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
+      params:{
+        pickup:pickup,
+        destination:destination
+      },
+      headers:{
+        Authorization:`Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    serFare(response.data)
+
   }
+
+
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -235,6 +250,7 @@ const HomeScreen = () => {
         className="fixed w-full z-10 bg-white  bottom-0 px-3 py-10 pt-12 translate-y-full"
       >
         <VehiclePannel
+        fare={fare}
           setConfirmRidePannel={setConfirmRidePannel}
           setVehiclePannel={setVehiclePannel}
         />

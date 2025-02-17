@@ -52,7 +52,7 @@ const getFare = async (pickup, destination) => {
         (distanceTime.duration.value / 60) * perMinuteRate.moto
     ),
   };
-
+console.log(fare)
   return fare;
 };
 

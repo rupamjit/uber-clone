@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
-const VehiclePannel = ({setVehiclePannel,setConfirmRidePannel}) => {
+const VehiclePannel = ({setVehiclePannel,setConfirmRidePannel,fare}) => {
+  // console.log(fare)
   return (
    
        <div>
@@ -31,7 +32,7 @@ const VehiclePannel = ({setVehiclePannel,setConfirmRidePannel}) => {
               Affordable, compact price
             </p>
           </div>
-          <h2 className="text-xl font-semibold">$193.20</h2>
+          <h2 className="text-xl font-semibold">₹{fare.car}</h2>
         </div>
         {/* Moto Rides */}
         <div onClick={()=>setConfirmRidePannel(true)} className="flex w-full p-3 border-2 mb-2 active:border-black border-gray-300 rounded-xl  items-center justify-between cursor-pointer">
@@ -52,7 +53,7 @@ const VehiclePannel = ({setVehiclePannel,setConfirmRidePannel}) => {
               Affordable motorcycles rides
             </p>
           </div>
-          <h2 className="text-xl font-semibold">$65.17</h2>
+          <h2 className="text-xl font-semibold">₹{fare.moto}</h2>
         </div>
         {/* Auto Rides */}
         <div onClick={()=>setConfirmRidePannel(true)} className="flex w-full p-3 border-2 mb-2 active:border-black border-gray-300 rounded-xl items-center justify-between cursor-pointer">
@@ -73,7 +74,7 @@ const VehiclePannel = ({setVehiclePannel,setConfirmRidePannel}) => {
               Affordable auto rides
             </p>
           </div>
-          <h2 className="text-xl font-semibold">$118.21</h2>
+          <h2 className="text-xl font-semibold">₹ {fare.auto}</h2>
         </div>
        </div>
      

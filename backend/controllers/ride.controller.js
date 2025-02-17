@@ -33,13 +33,15 @@ const getFareController = async(req,res) =>{
     return res.status(400).json({errors:errors.array()})
   }
   try {
-    const {pickUp,destination} = req.query
+    const {pickup,destination} = req.query
 
-    const fare = await getFare(pickUp,destination)
+
+    const fare = await getFare(pickup,destination)
+    // console.log(fare)
     return res.status(200).json(fare)
     
   } catch (error) {
-    return res.status(500).json("Internal Server Error", error.message);
+    return res.status(500).json({"Internal Server Error": error.message});
   }
 
 }

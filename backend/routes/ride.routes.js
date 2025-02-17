@@ -25,8 +25,8 @@ rideRouter.post(
   createRide
 );
 
-rideRouter.get("/get-fare",[
-  query("pickUp")
+rideRouter.get("/get-fare",authUser,[
+  query("pickup")
       .isString()
       .isLength({ min: 3 })
       .withMessage("Invlaid pickup address"),
@@ -34,6 +34,6 @@ rideRouter.get("/get-fare",[
       .isString()
       .isLength({ min: 3 })
       .withMessage("Invlaid pickup destination"),
-],authUser,getFareController)
+],getFareController)
 
 export default rideRouter;
