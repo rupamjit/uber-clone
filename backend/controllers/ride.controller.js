@@ -26,4 +26,21 @@ const createRide = async (req, res) => {
     res.status(500).json("Internal Server Error", error.message);
   }
 };
-export  {createRide};
+
+const getFareController = async(req,res) =>{
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors:errors.array()})
+  }
+  try {
+    const {pickUp,destination} = req.query
+
+    const fare = await getFare(pickUp,destination)
+    return res.status(200).json(fare)
+    
+  } catch (error) {
+    return res.status(500).json("Internal Server Error", error.message);
+  }
+
+}
+export  {createRide,getFareController};

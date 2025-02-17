@@ -1,6 +1,6 @@
 import express from "express";
-import { body } from "express-validator";
-import { createRide } from "../controllers/ride.controller.js";
+import { body,query } from "express-validator";
+import { createRide, getFareController } from "../controllers/ride.controller.js";
 import { authUser } from "../middlewares/auth.middleware.js";
 
 const rideRouter = express.Router();
@@ -24,5 +24,16 @@ rideRouter.post(
   ],
   createRide
 );
+
+rideRouter.get("/get-fare",[
+  query("pickUp")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("Invlaid pickup address"),
+    query("destination")
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage("Invlaid pickup destination"),
+],authUser,getFareController)
 
 export default rideRouter;
