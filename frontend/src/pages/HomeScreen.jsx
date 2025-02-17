@@ -21,7 +21,8 @@ const HomeScreen = () => {
   const [destinationSuggetions, setDestinationSuggetions] = useState([]);
   const [pickUpSuggetions, setPickUpSuggetions] = useState([]);
   const [activeField, setActiveField] = useState(null);
-  const [fare,serFare] = useState({})
+  const [fare, serFare] = useState({});
+  const [vehicleType, setVehicleType] = useState(null);
 
   const vehicalePannelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -132,7 +133,7 @@ const HomeScreen = () => {
           },
         }
       );
-  
+
       setDestinationSuggetions(response.data.suggetions);
     } catch (error) {
       console.log(error);
@@ -157,24 +158,42 @@ const HomeScreen = () => {
     }
   };
 
-  const findTrip = async () =>{
-    setVehiclePannel(true)
-    setPanelOpen(false)
+  const findTrip = async () => {
+    setVehiclePannel(true);
+    setPanelOpen(false);
 
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`,{
-      params:{
-        pickup:pickup,
-        destination:destination
-      },
-      headers:{
-        Authorization:`Bearer ${localStorage.getItem("token")}`
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+      {
+        params: {
+          pickup: pickup,
+          destination: destination,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    })
-    serFare(response.data)
+    );
+    serFare(response.data);
+  };
 
-  }
+  const createRide = async () => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
+        pickUp:pickup,
+        destination,
+        vehicleType,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
-
+    console.log(response);
+  };
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -231,14 +250,23 @@ const HomeScreen = () => {
               placeholder="Enter your destination"
             />
           </form>
-          <button onClick={findTrip} className="bg-black w-full text-white p-2  rounded-lg ">Find Trip</button>
+          <button
+            onClick={findTrip}
+            className="bg-black w-full text-white p-2  rounded-lg "
+          >
+            Find Trip
+          </button>
         </div>
         <div ref={panelRef} className="bg-white  h-0 opacity-0">
           <LocationSearchPanel
-          activeField={activeField}
-          setPickup={setPickup}
-          setDestination={setDestination}
-          suggetions= {activeField === "pickup"?pickUpSuggetions:destinationSuggetions}
+            activeField={activeField}
+            setPickup={setPickup}
+            setDestination={setDestination}
+            suggetions={
+              activeField === "pickup"
+                ? pickUpSuggetions
+                : destinationSuggetions
+            }
             setPanelOpen={setPanelOpen}
             setVehiclePannel={setVehiclePannel}
           />
@@ -250,7 +278,8 @@ const HomeScreen = () => {
         className="fixed w-full z-10 bg-white  bottom-0 px-3 py-10 pt-12 translate-y-full"
       >
         <VehiclePannel
-        fare={fare}
+          fare={fare}
+          setVehicleType={setVehicleType}
           setConfirmRidePannel={setConfirmRidePannel}
           setVehiclePannel={setVehiclePannel}
         />
@@ -261,6 +290,11 @@ const HomeScreen = () => {
         className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full"
       >
         <ConfirmRide
+          createRide={createRide}
+          destination={destination}
+          vehicleType={vehicleType}
+          fare={fare}
+          pickup={pickup}
           setConfirmRidePannel={setConfirmRidePannel}
           setVehicleFound={setVehicleFound}
         />
@@ -269,7 +303,7 @@ const HomeScreen = () => {
         ref={vehicleFoundRef}
         className="fixed w-full z-10 bg-white  bottom-0 px-3 py-6 pt-12 translate-y-full"
       >
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver vehicleType={vehicleType} fare={fare} destination={destination} pickup={pickup} setVehicleFound={setVehicleFound} />
       </div>
       <div
         ref={waitingForDriverRef}

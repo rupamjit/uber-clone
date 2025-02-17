@@ -19,7 +19,7 @@ rideRouter.post(
       .withMessage("Invlaid pickup destination"),
     body("vehicleType")
       .isString()
-      .isIn(["auto", "motorcycle", "car"])
+      .isIn(["auto", "moto", "car"])
       .withMessage("Invalid Vehicle Type"),
   ],
   createRide
