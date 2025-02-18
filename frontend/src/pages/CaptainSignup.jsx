@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CaptainDataContext } from "../context/CaptainContext";
 import axios from "axios";
 
 const CaptainSignup = () => {
@@ -13,9 +12,10 @@ const CaptainSignup = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
-  const { captain, setCaptain } = useContext(CaptainDataContext);
+   
 
-  const navigate = useNavigate()
+ 
+  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -33,18 +33,26 @@ const CaptainSignup = () => {
         vehicleType: vehicleType,
       },
     };
-    // console.log(captainData);
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`,captainData) 
-    if(response.status === 201){
-      const data = response.data;
-      // console.log(data)
-      // console.log(data.newCaptain)
-       setCaptain(data.newCaptain)
-     localStorage.setItem("token",data.token);
-     navigate('/captain-home')
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/captains/register`,
+        captainData
+      );
+      if (response.status === 201) {
+        const data = response.data;
+        console.log(data)
+        
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("captain", JSON.stringify(data.newCaptain));
+        navigate("/captain-home");
+        console.log(captainData);
+      } else {
+        console.error("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
     }
-
 
     setEmail("");
     setPassword("");
@@ -55,6 +63,11 @@ const CaptainSignup = () => {
     setVehicleCapacity("");
     setVehicleType("");
   };
+
+;
+
+
+
 
   return (
     <div className="p-7 h-screen flex flex-col justify-between">

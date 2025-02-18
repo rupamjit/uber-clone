@@ -23,7 +23,7 @@ const createRide = async (req, res) => {
 
     return res.status(201).json({ride});
   } catch (error) {
-    res.status(500).json("Internal Server Error", error.message);
+    res.status(500).json({"Internal Server Error": error.message});
   }
 };
 

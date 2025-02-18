@@ -1,17 +1,20 @@
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
-import { useRef, useState } from "react";
+import {  useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 
+
 const CaptainHome = () => {
+
   const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
   const [confirmRidePopPanel, setConfirmRidePopupPanel] = useState(false);
 
   const ridePopUpPanelRef = useRef(null);
   const confirmRidePopUpPanelRef = useRef(null);
+
 
   useGSAP(
     function () {

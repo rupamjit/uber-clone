@@ -1,4 +1,10 @@
 const CaptainDetails = () => {
+  const captain = localStorage.getItem("captain");
+  const captainName =
+    JSON.parse(captain).fullName.firstName +
+    " " +
+    JSON.parse(captain).fullName.lastName;
+
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -8,7 +14,7 @@ const CaptainDetails = () => {
             src="https://photos.lensculture.com/large/5dd2fa6e-fe8d-469f-959b-46299ced511d.jpg"
             alt=""
           />
-          <h4 className="text-lg font-medium">Virat Kohli</h4>
+          <h4 className="text-lg font-medium">{captainName}</h4>
         </div>
         <div>
           <h4 className="text-xl font-semibold">$295.20</h4>

@@ -6,11 +6,13 @@ import UserContext from "./context/userContext.jsx";
 import CaptainContext from "./context/CaptainContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <CaptainContext>
+  
     <UserContext>
+      <CaptainContext>
       <BrowserRouter>
         <App />
       </BrowserRouter>
+      </CaptainContext>
     </UserContext>
-  </CaptainContext>
+  
 );
