@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
@@ -12,9 +13,8 @@ const CaptainSignup = () => {
   const [vehicleCapacity, setVehicleCapacity] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
-   
+  const { captain, setCaptain } = useContext(CaptainDataContext);
 
- 
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
@@ -41,12 +41,12 @@ const CaptainSignup = () => {
       );
       if (response.status === 201) {
         const data = response.data;
-        console.log(data)
-        
+        // console.log(data)
+        setCaptain(data);
         localStorage.setItem("token", data.token);
         localStorage.setItem("captain", JSON.stringify(data.newCaptain));
         navigate("/captain-home");
-        console.log(captainData);
+        // console.log(captainData);
       } else {
         console.error("Unexpected response status:", response.status);
       }
@@ -63,11 +63,6 @@ const CaptainSignup = () => {
     setVehicleCapacity("");
     setVehicleType("");
   };
-
-;
-
-
-
 
   return (
     <div className="p-7 h-screen flex flex-col justify-between">

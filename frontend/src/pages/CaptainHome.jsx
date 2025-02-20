@@ -1,20 +1,60 @@
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
-import {  useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
-
+import { CaptainDataContext } from "../context/CaptainContext";
+import { SocketContext } from "../context/SocketContext";
 
 const CaptainHome = () => {
-
   const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
   const [confirmRidePopPanel, setConfirmRidePopupPanel] = useState(false);
 
   const ridePopUpPanelRef = useRef(null);
   const confirmRidePopUpPanelRef = useRef(null);
 
+  const { captain } = useContext(CaptainDataContext);
+  const { sendMessage } = useContext(SocketContext);
+  const { socket } = useContext(SocketContext);
+
+  const captainData = localStorage.getItem("captain");
+  const data = captainData ? JSON.parse(captainData)._id : null;
+  // console.log(data);
+  useEffect(() => {
+    if (data) {
+      sendMessage("join", { userType: "captain", userId: data });
+    }
+
+    const updateLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+        
+          // console.log({
+          //   userId: data,
+          //   location: {
+          //     lat: position.coords.latitude, 
+          //     lng: position.coords.longitude,
+          //   },
+          // });
+
+          socket.emit("update-location-captain", {
+            userId: data,
+            lat: position.coords.latitude, 
+              lng: position.coords.longitude,
+          });
+        });
+      }
+    };
+
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation();
+  }, [data]);
+
+  socket.on("new-ride",(data)=>{
+    console.log(data)
+  })
 
   useGSAP(
     function () {
@@ -63,7 +103,7 @@ const CaptainHome = () => {
         </Link>
       </div>
       <div className="h-3/5">
-        <img  
+        <img
           className="h-full w-full object-fit"
           src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
           alt=""
@@ -76,7 +116,10 @@ const CaptainHome = () => {
         ref={ridePopUpPanelRef}
         className="fixed w-full z-10 bg-white translate-y-full   bottom-0 px-3 py-6 pt-12"
       >
-        <RidePopUp setRidePopUpPanel={setRidePopUpPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
+        <RidePopUp
+          setRidePopUpPanel={setRidePopUpPanel}
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+        />
       </div>
       <div
         ref={confirmRidePopUpPanelRef}

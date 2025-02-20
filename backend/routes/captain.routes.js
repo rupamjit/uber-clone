@@ -7,7 +7,7 @@ import {
   registerCaptain,
 } from "../controllers/captain.controller.js";
 import {authCaptain} from "../middlewares/auth.middleware.js"
-
+  
 const captainRouter = express.Router();
 
 captainRouter.post(

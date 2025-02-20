@@ -1,4 +1,4 @@
-import {  useRef, useState } from "react";
+import {  useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
@@ -8,6 +8,8 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
+import { SocketContext } from "../context/SocketContext";
+import { UserDataContext } from "../context/userContext";
 
 
 const HomeScreen = () => {
@@ -35,8 +37,18 @@ const HomeScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("bms");
+    // console.log("bms");
   };
+
+  const {sendMessage} = useContext(SocketContext)
+  const{user}= useContext(UserDataContext)
+
+  useEffect(()=>{
+  
+    sendMessage("join",{userType:"user",userId:user._id})
+
+
+  },[user])
 
   useGSAP(
     function () {
@@ -194,8 +206,10 @@ const HomeScreen = () => {
       }
     );
 
-    console.log(response);
+    // console.log(response);
   };
+
+  
 
   return (
     <div className="h-screen relative overflow-hidden">

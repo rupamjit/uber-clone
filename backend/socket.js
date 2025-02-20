@@ -15,36 +15,61 @@ function initializeSocket(server) {
     io.on('connection', (socket) => {
         console.log(`Client connected: ${socket.id}`);
 
+        
         socket.on('join', async (data) => {
-            const { userId, userType } = data;
-
-            if (userType === 'user') {
-                await User.findByIdAndUpdate(userId, { socketId: socket.id });
-            } else if (userType === 'captain') {
-                await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
-            }
-        });
-
-        socket.on('update-location-captain', async (data) => {
-            const { userId, location } = data;
-
-            if (!location || !location.ltd || !location.lng) {
-                return socket.emit('error', { message: 'Invalid location data' });
-            }
-
-            await Captain.findByIdAndUpdate(userId, {
-                location: {
-                    ltd: location.ltd,
-                    lng: location.lng
+            try {
+              
+                if (!data || !data.userId || !data.userType) {
+                    return socket.emit('error', { message: 'Invalid data received' });
                 }
-            });
+
+                const { userId, userType } = data;
+
+                console.log(`User ${userId} joined: ${userType}`);
+
+
+                if (userType === 'user') {
+                    await User.findByIdAndUpdate(userId, { socketId: socket.id });
+                } else if (userType === 'captain') {
+                    await Captain.findByIdAndUpdate(userId, { socketId: socket.id });
+                }
+
+                console.log(`User ${userId} joined as ${userType}`);
+            } catch (error) {
+                console.error('Error handling join event:', error);
+                socket.emit('error', { message: 'Internal server error' });
+            }
+        });
+        
+socket.on("update-location-captain", async (data) => {
+    try {
+        const { userId, lat, lng } = data;
+
+        console.log("Received update for:", userId, lat, lng);
+
+        if (!lat || !lng) {
+            return socket.emit("error", { message: "Invalid location data" });
+        }
+
+        await Captain.findByIdAndUpdate(userId, {
+            location: { lat, lng }
         });
 
+        console.log(`Captain ${userId} location updated successfully`);
+    } catch (error) {
+        console.error("Error updating captain location:", error);
+        socket.emit("error", { message: "Internal server error" });
+    }
+});
+
+
+        
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);
         });
     });
 }
+
 
 const sendMessageToSocketId = (socketId, messageObject) => {
     console.log(messageObject);
@@ -57,3 +82,4 @@ const sendMessageToSocketId = (socketId, messageObject) => {
 };
 
 export { initializeSocket, sendMessageToSocketId };
+

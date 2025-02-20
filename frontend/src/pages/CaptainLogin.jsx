@@ -7,7 +7,7 @@ const CaptainLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setCaptain } = useContext(CaptainDataContext);
+  const { captain,setCaptain } = useContext(CaptainDataContext);
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
@@ -26,8 +26,9 @@ const CaptainLogin = () => {
     console.log(response)
     if (response.status === 201) {
       const data = response.data;
-      // console.log(data.captain);
-      setCaptain(data.captain);
+      // console.log(data);
+      // setCaptain(data);
+      localStorage.setItem("captain",JSON.stringify(data.captain))
       localStorage.setItem('token',data.token)
       navigate("/captain-home");
     }
