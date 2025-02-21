@@ -27,7 +27,7 @@ const LocationSearchPanel = ({
           <h2 className="bg-[#eee] rounded-full h-10 w-10 flex items-center justify-center">
             <i className="ri-map-pin-fill"></i>
           </h2>
-          <h4 className="font-medium">{location.description}</h4>
+          <h4 className="font-medium">{location?.description}</h4>
         </div>
       ))}
     </div>

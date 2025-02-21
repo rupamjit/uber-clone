@@ -7,10 +7,12 @@ import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { CaptainDataContext } from "../context/CaptainContext";
 import { SocketContext } from "../context/SocketContext";
+import axios from "axios";
 
 const CaptainHome = () => {
-  const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
+  const [ridePopUpPanel, setRidePopUpPanel] = useState(false);
   const [confirmRidePopPanel, setConfirmRidePopupPanel] = useState(false);
+  const [ride, setRide] = useState(null);
 
   const ridePopUpPanelRef = useRef(null);
   const confirmRidePopUpPanelRef = useRef(null);
@@ -30,19 +32,18 @@ const CaptainHome = () => {
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-        
           // console.log({
           //   userId: data,
           //   location: {
-          //     lat: position.coords.latitude, 
+          //     lat: position.coords.latitude,
           //     lng: position.coords.longitude,
           //   },
           // });
 
           socket.emit("update-location-captain", {
             userId: data,
-            lat: position.coords.latitude, 
-              lng: position.coords.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           });
         });
       }
@@ -52,9 +53,31 @@ const CaptainHome = () => {
     updateLocation();
   }, [data]);
 
-  socket.on("new-ride",(data)=>{
-    console.log(data)
-  })
+  socket.on("new-ride", (data) => {
+    // console.log(data)
+    setRide(data);
+    setRidePopUpPanel(true);
+  });
+
+  async function confirmRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {
+        rideId: ride._id,
+        captainId: data,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    console.log(response);
+
+    setRidePopUpPanel(false);
+    setConfirmRidePopupPanel(true);
+  }
 
   useGSAP(
     function () {
@@ -117,6 +140,8 @@ const CaptainHome = () => {
         className="fixed w-full z-10 bg-white translate-y-full   bottom-0 px-3 py-6 pt-12"
       >
         <RidePopUp
+          ride={ride}
+          confirmRide={confirmRide}
           setRidePopUpPanel={setRidePopUpPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
         />

@@ -1,7 +1,11 @@
 import express from "express";
-import { body,query } from "express-validator";
-import { createRide, getFareController } from "../controllers/ride.controller.js";
-import { authUser } from "../middlewares/auth.middleware.js";
+import { body, query } from "express-validator";
+import {
+  createRide,
+  getFareController,
+  confirmRideController
+} from "../controllers/ride.controller.js";
+import { authCaptain, authUser } from "../middlewares/auth.middleware.js";
 
 const rideRouter = express.Router();
 
@@ -25,8 +29,11 @@ rideRouter.post(
   createRide
 );
 
-rideRouter.get("/get-fare",authUser,[
-  query("pickup")
+rideRouter.get(
+  "/get-fare",
+  authUser,
+  [
+    query("pickup")
       .isString()
       .isLength({ min: 3 })
       .withMessage("Invlaid pickup address"),
@@ -34,6 +41,15 @@ rideRouter.get("/get-fare",authUser,[
       .isString()
       .isLength({ min: 3 })
       .withMessage("Invlaid pickup destination"),
-],getFareController)
+  ],
+  getFareController
+);
+
+rideRouter.post(
+  "/confirm",
+  authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid pikup address"),
+    confirmRideController
+);
 
 export default rideRouter;

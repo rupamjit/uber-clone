@@ -27,6 +27,7 @@ const HomeScreen = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, serFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ride,setRide] = useState(null)
 
   const vehicalePannelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -40,15 +41,20 @@ const HomeScreen = () => {
     // console.log("bms");
   };
 
-  const {sendMessage} = useContext(SocketContext)
+  const {socket,sendMessage,receiveMessage} = useContext(SocketContext)
   const{user}= useContext(UserDataContext)
 
   useEffect(()=>{
   
     sendMessage("join",{userType:"user",userId:user._id})
 
-
   },[user])
+
+  receiveMessage('ride-confirmed',ride=>{
+    setVehicleFound(false)
+    setWaitingForDriver(true)
+    setRide(ride)
+  })
 
   useGSAP(
     function () {
@@ -323,9 +329,9 @@ const HomeScreen = () => {
       </div>
       <div
         ref={waitingForDriverRef}
-        className="fixed w-full z-10 bg-whiten translate-y-full bottom-0 px-3 py-6 pt-12"
+        className="fixed w-full z-10 bg-white translate-y-full bottom-0 px-3 py-6 pt-12"
       >
-        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
+        <WaitingForDriver ride={ride}  setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>
   );

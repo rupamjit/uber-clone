@@ -1,5 +1,6 @@
 import { getDistanceTime } from "./maps.service.js";
-import crypto from"crypto";
+import crypto from "crypto";
+import Ride from "../models/ride.model.js";
 
 function getOtp(num) {
   function generateOtp(num) {
@@ -8,8 +9,9 @@ function getOtp(num) {
       .toString();
     return otp;
   }
-  return generateOtp(num)
+  return generateOtp(num);
 }
+
 
 const getFare = async (pickup, destination) => {
   if (!pickup || !destination) {
@@ -52,8 +54,33 @@ const getFare = async (pickup, destination) => {
         (distanceTime.duration.value / 60) * perMinuteRate.moto
     ),
   };
-console.log(fare)
+  console.log(fare);
   return fare;
 };
 
-export { getFare,getOtp };
+const confirmRide = async ({ rideId, captain }) => {
+
+  if(!rideId){
+    throw new Error("Ride ID is required!!!");
+  }
+
+  await Ride.findOneAndUpdate({
+        _id: rideId
+    }, {
+        status: 'accepted',
+        captain: captain._id
+    })
+
+    const ride = await Ride.findOne({
+        _id: rideId
+    }).populate('user').populate('captain').select('+otp');
+
+    if (!ride) {
+        throw new Error('Ride not found');
+    }
+
+    return ride;
+
+};
+
+export { getFare, getOtp, confirmRide };

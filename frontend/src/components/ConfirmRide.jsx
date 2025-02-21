@@ -51,6 +51,7 @@ const ConfirmRide = ({
       </div>
       <button
         onClick={() => {
+          console.log("create ride is called")
           createRide();
           setVehicleFound(true);
           setConfirmRidePannel(false);
