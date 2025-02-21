@@ -4,7 +4,7 @@ import {
   createRide,
   getFareController,
   confirmRideController,
-  startRideController
+  startRideController,endRideController
 } from "../controllers/ride.controller.js";
 import { authCaptain, authUser } from "../middlewares/auth.middleware.js";
 
@@ -53,10 +53,22 @@ rideRouter.post(
   confirmRideController
 );
 
-rideRouter.get("/start-ride", authCaptain,
-  query('rideId').isMongoId().withMessage('Invalid ride id'),
-  query('otp').isString().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+rideRouter.get(
+  "/start-ride",
+  authCaptain,
+  query("rideId").isMongoId().withMessage("Invalid ride id"),
+  query("otp")
+    .isString()
+    .isLength({ min: 6, max: 6 })
+    .withMessage("Invalid OTP"),
   startRideController
-)
+);
+
+rideRouter.post(
+  "/end-ride",
+  authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid ride id"),
+  endRideController
+);
 
 export default rideRouter;

@@ -59,10 +59,12 @@ const HomeScreen = () => {
     setRide(ride)
   })
 
-  sendMessage('ride-started',ride=>{
+  socket.on('ride-started',ride=>{
+    console.log("ride")
     setWaitingForDriver(false)
-    naviagte("/riding")
+    naviagte("/riding",{state:{ride}})
   })
+
 
   useGSAP(
     function () {

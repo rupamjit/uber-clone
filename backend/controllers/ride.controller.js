@@ -1,6 +1,12 @@
 import { validationResult } from "express-validator";
 import Ride from "../models/ride.model.js";
-import { getFare, getOtp, confirmRide, startRide } from "../services/ride.service.js";
+import {
+  getFare,
+  getOtp,
+  confirmRide,
+  startRide,
+  endRide,
+} from "../services/ride.service.js";
 import {
   getAddressCoordinate,
   getCaptainInTheRadius,
@@ -85,7 +91,6 @@ const getFareController = async (req, res) => {
 //       data:ride
 //     })
 
-
 //     return res.status(200).json(ride);
 //   } catch (error) {
 //     return res.status(500).json({ message: error.message });
@@ -119,29 +124,56 @@ const confirmRideController = async (req, res) => {
   }
 };
 
+const startRideController = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-const startRideController = async (req,res)=>{
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
+  const { rideId, otp } = req.query;
 
-    const { rideId, otp } = req.query;
+  try {
+    const ride = await startRide({ rideId, otp, captain: req.captain });
 
-    try {
-        const ride = await startRide({ rideId, otp, captain: req.captain });
+    console.log(ride);
 
-        console.log(ride);
+    sendMessageToSocketId(ride.user.socketId, {
+      event: "ride-started",
+      data: ride,
+    });
 
-        sendMessageToSocketId(ride.user.socketId, {
-            event: 'ride-started',
-            data: ride
-        })
+    return res.status(200).json(ride);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
 
-        return res.status(200).json(ride);
-    } catch (err) {
-        return res.status(500).json({ message: err.message });
-    }
-}
+const endRideController = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-export { createRide, getFareController, confirmRideController,startRideController };
+  const { rideId } = req.body;
+
+  try {
+    const ride = await endRide({ rideId, captain: req.captain });
+
+    sendMessageToSocketId(ride.user.socketId, {
+      event: "ride-ended",
+      data: ride,
+    });
+
+    return res.status(200).json(ride);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export {
+  createRide,
+  getFareController,
+  confirmRideController,
+  startRideController,
+  endRideController,
+};
