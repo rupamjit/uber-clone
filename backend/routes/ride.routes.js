@@ -3,7 +3,8 @@ import { body, query } from "express-validator";
 import {
   createRide,
   getFareController,
-  confirmRideController
+  confirmRideController,
+  startRideController
 } from "../controllers/ride.controller.js";
 import { authCaptain, authUser } from "../middlewares/auth.middleware.js";
 
@@ -49,7 +50,13 @@ rideRouter.post(
   "/confirm",
   authCaptain,
   body("rideId").isMongoId().withMessage("Invalid pikup address"),
-    confirmRideController
+  confirmRideController
 );
+
+rideRouter.get("/start-ride", authCaptain,
+  query('rideId').isMongoId().withMessage('Invalid ride id'),
+  query('otp').isString().isLength({ min: 6, max: 6 }).withMessage('Invalid OTP'),
+  startRideController
+)
 
 export default rideRouter;

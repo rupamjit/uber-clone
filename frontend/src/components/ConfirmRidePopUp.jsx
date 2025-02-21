@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
+const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel,ride }) => {
 
   const [otp,setOtp] = useState("")
 
@@ -30,7 +30,7 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
             src="https://www.shutterstock.com/image-photo/handsome-indonesian-southeast-asian-man-260nw-2476654675.jpg"
             alt="user"
           />
-          <h2 className="text-lg font-medium">Harsh Patel</h2>
+          <h2 className="text-lg font-medium">{ride?.user?.fullName?.firstName}</h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
@@ -39,25 +39,25 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
           <i className="text-lg ri-map-pin-2-line"></i>
           <div>
-            <h3 className="text-lg font-medium">562/11-A</h3>
+            <h3 className="text-lg font-medium">PickUp</h3>
             <p className="text-sm -mt-1 text-gray-600">
-              Kankariya Talab,Ahmdebad
+              {ride?.pickUp}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
           <i className="ri-map-pin-2-fill"></i>
           <div>
-            <h3 className="text-lg font-medium">$193.20</h3>
+            <h3 className="text-lg font-medium">Destination</h3>
             <p className="text-sm -mt-1 text-gray-600">
-              Kankariya Talab,Ahmdebad
+             {ride?.destination}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-5 p-3 border-b-2 border-gray-300">
           <i className="text-lg ri-currency-line"></i>
           <div>
-            <h3 className="text-lg font-medium">$193.20</h3>
+            <h3 className="text-lg font-medium">${ride?.fare}</h3>
             <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
           </div>
         </div>
@@ -68,13 +68,13 @@ const ConfirmRidePopUp = ({ setConfirmRidePopupPanel, setRidePopUpPanel }) => {
             submitHandler(e)
         }}>
           <input value={otp} onChange={(e)=>setOtp(e.target.value)} type="text" placeholder="Enter OTP" className="bg-[#eee] px-12 py-2 text-lg font-mono rounded-lg w-full"/>
-          <Link
-            to="/captain-riding"
+          <button
+            
             onClick={() => {}}
             className="w-full flex items-center justify-center mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg"
           >
             Confirm
-          </Link>
+          </button>
           <button
             onClick={() => {
               setConfirmRidePopupPanel(false);

@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import Ride from "../models/ride.model.js";
-import { getFare, getOtp, confirmRide } from "../services/ride.service.js";
+import { getFare, getOtp, confirmRide, startRide } from "../services/ride.service.js";
 import {
   getAddressCoordinate,
   getCaptainInTheRadius,
@@ -119,4 +119,29 @@ const confirmRideController = async (req, res) => {
   }
 };
 
-export { createRide, getFareController, confirmRideController };
+
+const startRideController = async (req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rideId, otp } = req.query;
+
+    try {
+        const ride = await startRide({ rideId, otp, captain: req.captain });
+
+        console.log(ride);
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        })
+
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+export { createRide, getFareController, confirmRideController,startRideController };
