@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import FinishRide from "../components/FinishRide";
+import LiveTracking from "../components/LiveTracking";
 
 const CaptainRiding = () => {
 
@@ -30,11 +31,7 @@ const CaptainRiding = () => {
   return (
     <div className="h-screen relative flex flex-col justify-end">
       <div className="fixed p-6 top-0 flex items-center justify-between w-screen">
-        <img
-          className="w-16"
-          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-          alt=""
-        />
+        <LiveTracking/>
         <Link
           to="/captain-home"
           className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
