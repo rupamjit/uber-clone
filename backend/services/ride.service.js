@@ -88,7 +88,7 @@ const startRide = async ({ rideId, otp, captain }) => {
         throw new Error('Ride id and OTP are required');
     }
 
-    const ride = await rideModel.findOne({
+    const ride = await Ride.findOne({
         _id: rideId
     }).populate('user').populate('captain').select('+otp');
 
@@ -104,7 +104,7 @@ const startRide = async ({ rideId, otp, captain }) => {
         throw new Error('Invalid OTP');
     }
 
-    await rideModel.findOneAndUpdate({
+    await Ride.findOneAndUpdate({
         _id: rideId
     }, {
         status: 'ongoing'

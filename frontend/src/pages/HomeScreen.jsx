@@ -10,6 +10,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
 import { SocketContext } from "../context/SocketContext";
 import { UserDataContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 
 const HomeScreen = () => {
@@ -28,6 +29,8 @@ const HomeScreen = () => {
   const [fare, serFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
   const [ride,setRide] = useState(null)
+
+  const naviagte = useNavigate()
 
   const vehicalePannelRef = useRef(null);
   const panelCloseRef = useRef(null);
@@ -54,6 +57,11 @@ const HomeScreen = () => {
     setVehicleFound(false)
     setWaitingForDriver(true)
     setRide(ride)
+  })
+
+  sendMessage('ride-started',ride=>{
+    setWaitingForDriver(false)
+    naviagte("/riding")
   })
 
   useGSAP(
