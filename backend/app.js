@@ -16,8 +16,10 @@ connectDB();
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://uber-3xf10bie8-rupamjit-ghoshs-projects.vercel.app", 
+  "https://uber-git-main-rupamjit-ghoshs-projects.vercel.app", 
 ];
+
+
 
 app.use(
   cors({
