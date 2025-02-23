@@ -11,24 +11,9 @@ import rideRouter from "./routes/ride.routes.js";
 
 const app = express();
 
-
 connectDB();
 
-// CORS Configuration
-const allowedOrigins = [
-    'https://uber-dun-nu.vercel.app',
-  'https://uber-clone-git-main-rupamjit-ghoshs-projects.vercel.app', 
-];
-
-
-
-app.use(
-  cors({
-    origin: allowedOrigins, 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, 
-  })
-);
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
