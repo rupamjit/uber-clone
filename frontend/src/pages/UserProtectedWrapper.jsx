@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { UserDataContext } from "../context/userContext";
+import { UserDataContext } from "../context/UserContext";
 
 const UserProtectedWrapper = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
