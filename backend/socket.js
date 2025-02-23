@@ -7,10 +7,11 @@ let io;
 function initializeSocket(server) {
   io = new Server(server, {
     cors: {
-      origin: "https://uber-git-main-rupamjit-ghoshs-projects.vercel.app",
-      methods: ["GET", "POST"],
-      credentials: true,
-    },
+            origin: ['https://uber-dun-nu.vercel.app', 'https://uber-clone-git-main-rupamjit-ghoshs-projects.vercel.app'],  // Add your frontend domains
+            methods: ['GET', 'POST'],
+            allowedHeaders: ['Content-Type'],
+            credentials: true,
+        },
   });
 
   io.on("connection", (socket) => {

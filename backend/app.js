@@ -16,7 +16,8 @@ connectDB();
 
 // CORS Configuration
 const allowedOrigins = [
-  "https://uber-git-main-rupamjit-ghoshs-projects.vercel.app", 
+    'https://uber-dun-nu.vercel.app',
+  'https://uber-clone-git-main-rupamjit-ghoshs-projects.vercel.app', 
 ];
 
 
